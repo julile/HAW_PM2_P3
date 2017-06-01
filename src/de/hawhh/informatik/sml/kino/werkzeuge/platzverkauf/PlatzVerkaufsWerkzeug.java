@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import de.hawhh.informatik.sml.kino.fachwerte.Platz;
 import de.hawhh.informatik.sml.kino.materialien.Kinosaal;
 import de.hawhh.informatik.sml.kino.materialien.Vorstellung;
+import de.hawhh.informatik.sml.kino.werkzeuge.barzahlung.BarzahlungsWerkzeug;
 
 /**
  * Mit diesem Werkzeug können Plätze verkauft und storniert werden. Es arbeitet
@@ -23,7 +24,7 @@ public class PlatzVerkaufsWerkzeug
 {
     // Die aktuelle Vorstellung, deren Plätze angezeigt werden. Kann null sein.
     private Vorstellung _vorstellung;
-
+    
     private PlatzVerkaufsWerkzeugUI _ui;
 
     /**
@@ -171,9 +172,9 @@ public class PlatzVerkaufsWerkzeug
     private void verkaufePlaetze(Vorstellung vorstellung)
     {
         Set<Platz> plaetze = _ui.getPlatzplan().getAusgewaehltePlaetze();
-        //TODO öffne ein Popup mit Barzahlungsdialog
-        vorstellung.verkaufePlaetze(plaetze);
-        aktualisierePlatzplan();
+        new BarzahlungsWerkzeug(plaetze, vorstellung);
+//        vorstellung.verkaufePlaetze(plaetze);
+//        aktualisierePlatzplan();
     }
 
     /**

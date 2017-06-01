@@ -8,7 +8,7 @@ import javax.swing.*;
 
 public class BarzahlungsWerkzeugUI
 {
-	private JFrame _frame;
+	private JDialog _frame;
     private JTextField _bezahlFeld;
     private JTextField _preisFeld;
     private JTextField _rueckgeldFeld;
@@ -16,8 +16,7 @@ public class BarzahlungsWerkzeugUI
     private JButton _abbrechenButton;
     
     public BarzahlungsWerkzeugUI() {
-    	_frame = new JFrame("Barzahlung");
-    	_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	_frame = new JDialog();
     	
     	_okButton = new JButton("OK");
     	_abbrechenButton = new JButton("Abbrechen");
@@ -29,18 +28,34 @@ public class BarzahlungsWerkzeugUI
         _rueckgeldFeld = new JTextField();
         _rueckgeldFeld.setEditable(false);
 
+        
     	Container contentPane = _frame.getContentPane();
     	GridLayout layout = new GridLayout();
+    	layout.setColumns(2);
+    	layout.setRows(4);
+    	layout.setHgap(20);
+    	layout.setVgap(20);
+
     	contentPane.setLayout (layout);
-    	
+    	    	
     	contentPane.add(new JLabel ("Gesamtpreis: "));
+       	contentPane.add(_preisFeld);
     	contentPane.add(new JLabel ("Bezahlt: "));
-    	contentPane.add(new JLabel ("Rueckgeld: "));
-    	contentPane.add(_okButton);
-    	contentPane.add(_preisFeld);
     	contentPane.add(_bezahlFeld);
+    	contentPane.add(new JLabel ("Rueckgeld: "));
     	contentPane.add(_rueckgeldFeld);
+    	contentPane.add(_okButton);
     	contentPane.add(_abbrechenButton);
+ 
+    	_frame.setTitle("Barzahlung");
+    }
+    
+    public void zeigeFenster(){
+    	_frame.setLocation(700, 500);
+    	_frame.setModal(true);
+    	_frame.setSize(250,200);
+    	_frame.setResizable(false);
+    	_frame.setVisible(true);
     }
     
 	/**
@@ -66,8 +81,7 @@ public class BarzahlungsWerkzeugUI
 	}
 	
 	public void set_preisFeld(int preis){
-		Integer gesamtpreis = new Integer (preis);
-		_preisFeld.setText(gesamtpreis.toString());
+		_preisFeld.setText(Integer.toString(preis));
 	}
 	/**
 	 * @return the _rueckgeldFeld
