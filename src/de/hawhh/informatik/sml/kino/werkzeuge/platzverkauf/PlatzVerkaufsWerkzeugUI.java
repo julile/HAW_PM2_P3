@@ -15,7 +15,7 @@ import javax.swing.JScrollPane;
  * @author SE2-Team (Uni HH), PM2-Team
  * @version SoSe 2017
  */
-class PlatzVerkaufsWerkzeugUI
+public class PlatzVerkaufsWerkzeugUI
 {
     // Die Widgets, aus denen das UI sich zusammensetzt
     private JPanel _hauptPanel;
@@ -94,7 +94,8 @@ class PlatzVerkaufsWerkzeugUI
     public JButton getVerkaufenButton()
     {
         return _verkaufenButton;
-    }
+    }   
+    
     
     /**
      * Gibt das Panel zurück, in dem die Widgets angeordnet sind.
@@ -103,5 +104,6 @@ class PlatzVerkaufsWerkzeugUI
     {
         return _hauptPanel;
     }
+    
 
 }

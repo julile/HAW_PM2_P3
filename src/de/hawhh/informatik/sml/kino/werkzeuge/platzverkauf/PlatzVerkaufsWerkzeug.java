@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Set;
 import javax.swing.JPanel;
+
+import de.hawhh.informatik.sml.kino.fachwerte.Eurocent;
 import de.hawhh.informatik.sml.kino.fachwerte.Platz;
 import de.hawhh.informatik.sml.kino.materialien.Kinosaal;
 import de.hawhh.informatik.sml.kino.materialien.Vorstellung;
@@ -93,6 +95,9 @@ public class PlatzVerkaufsWerkzeug
     private void reagiereAufNeuePlatzAuswahl(Set<Platz> plaetze)
     {
         _ui.getVerkaufenButton().setEnabled(istVerkaufenMoeglich(plaetze));
+        _ui.getVerkaufenButton().requestFocusInWindow();
+        if (istVerkaufenMoeglich(plaetze)) 
+        	_ui.getUIPanel().getRootPane().setDefaultButton(_ui.getVerkaufenButton());
         _ui.getStornierenButton().setEnabled(istStornierenMoeglich(plaetze));
         aktualisierePreisanzeige(plaetze);
     }
@@ -105,8 +110,8 @@ public class PlatzVerkaufsWerkzeug
 
         if (istVerkaufenMoeglich(plaetze))
         {
-            int preis = _vorstellung.getPreisFuerPlaetze(plaetze);
-            _ui.getPreisLabel().setText("Gesamtpreis: " + preis + " Eurocent");
+            Eurocent preis = Eurocent.get(_vorstellung.getPreisFuerPlaetze(plaetze));
+            _ui.getPreisLabel().setText("Gesamtpreis: " + preis.toString() + " Eurocent");
         }
         else
         {
@@ -172,9 +177,9 @@ public class PlatzVerkaufsWerkzeug
     private void verkaufePlaetze(Vorstellung vorstellung)
     {
         Set<Platz> plaetze = _ui.getPlatzplan().getAusgewaehltePlaetze();
-        new BarzahlungsWerkzeug(plaetze, vorstellung);
-//        vorstellung.verkaufePlaetze(plaetze);
-//        aktualisierePlatzplan();
+        BarzahlungsWerkzeug b = new BarzahlungsWerkzeug(Eurocent.get(vorstellung.getPreisFuerPlaetze(plaetze)));
+        if (b.istBezahlt())   vorstellung.verkaufePlaetze(plaetze);
+        aktualisierePlatzplan();
     }
 
     /**

@@ -31,20 +31,20 @@ public class EurocentTest
 	@Test
 	public void testeToEuroString()
 	{
-		Eurocent eu3 = Eurocent.toEuro("12,34");
+		Eurocent eu3 = Eurocent.get("12,34");
 		assertEquals(eu1, eu3);
-		Eurocent eu4 = Eurocent.toEuro("5,00");
+		Eurocent eu4 = Eurocent.get("5,00");
 		assertEquals(eu2, eu4);
-		Eurocent eu5 = Eurocent.toEuro("05,00");
+		Eurocent eu5 = Eurocent.get("05,00");
 		assertEquals(eu2, eu5);
 	}
 
 	@Test
 	public void testeToEuroInt()
 	{
-		Eurocent eu3 = Eurocent.toEuro(1234);
+		Eurocent eu3 = Eurocent.get(1234);
 		assertEquals(eu1, eu3);
-		Eurocent eu4 = Eurocent.toEuro(500);
+		Eurocent eu4 = Eurocent.get(500);
 		assertEquals(eu2, eu4);
 		// Eurocent eu5 = Eurocent.toEuro(0500);
 		// assertEquals(eu2, eu5);
@@ -60,8 +60,8 @@ public class EurocentTest
 	@Test
 	public void testeAdd()
 	{
-		Eurocent eu3 = eu2.add(eu1);
-		Eurocent eu4 = eu1.add(eu2);
+		Eurocent eu3 = Eurocent.add(eu2, eu1);
+		Eurocent eu4 = Eurocent.add(eu1, eu2);
 		assertEquals(eu4, eu3);
 		assertEquals(eu3.toString(), "17,34");
 	}
@@ -69,14 +69,14 @@ public class EurocentTest
 	@Test
 	public void testeSub()
 	{
-		Eurocent eu3 = eu1.sub(eu2);
+		Eurocent eu3 =Eurocent.sub(eu1, eu2);
 		assertEquals(eu3.toString(), "7,34");
 	}
 
 	@Test
 	public void testeMul()
 	{
-		Eurocent eu3 = eu1.mul(2);
+		Eurocent eu3 = Eurocent.mul(eu1, 2);
 		assertEquals(eu3.toString(), "24,68");
 	}
 }

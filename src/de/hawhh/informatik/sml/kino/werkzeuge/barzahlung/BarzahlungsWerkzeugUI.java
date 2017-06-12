@@ -5,6 +5,8 @@ import java.awt.Container;
 
 import javax.swing.*;
 
+import de.hawhh.informatik.sml.kino.fachwerte.Eurocent;
+
 
 public class BarzahlungsWerkzeugUI
 {
@@ -19,6 +21,7 @@ public class BarzahlungsWerkzeugUI
     	_frame = new JDialog();
     	
     	_okButton = new JButton("OK");
+    	_okButton.setEnabled(false);
     	_abbrechenButton = new JButton("Abbrechen");
     	
         _preisFeld = new JTextField();
@@ -46,7 +49,7 @@ public class BarzahlungsWerkzeugUI
     	contentPane.add(_rueckgeldFeld);
     	contentPane.add(_okButton);
     	contentPane.add(_abbrechenButton);
- 
+    	
     	_frame.setTitle("Barzahlung");
     }
     
@@ -56,6 +59,7 @@ public class BarzahlungsWerkzeugUI
     	_frame.setSize(250,200);
     	_frame.setResizable(false);
     	_frame.setVisible(true);
+    	_bezahlFeld.requestFocus();
     }
     
 	/**
@@ -65,13 +69,7 @@ public class BarzahlungsWerkzeugUI
 	{
 		return _bezahlFeld;
 	}
-	/**
-	 * @param _bezahlFeld the _bezahlFeld to set
-	 */
-	public void set_bezahlFeld(JTextField _bezahlFeld)
-	{
-		this._bezahlFeld = _bezahlFeld;
-	}
+
 	/**
 	 * @return the _preisFeld
 	 */
@@ -80,8 +78,8 @@ public class BarzahlungsWerkzeugUI
 		return _preisFeld;
 	}
 	
-	public void set_preisFeld(int preis){
-		_preisFeld.setText(Integer.toString(preis));
+	public void set_preis(Eurocent preis){
+		_preisFeld.setText(preis.toString());
 	}
 	/**
 	 * @return the _rueckgeldFeld
@@ -104,6 +102,9 @@ public class BarzahlungsWerkzeugUI
 	{
 		return _abbrechenButton;
 	}
-    
-    
+	
+	public void close()
+	{
+		_frame.dispose();
+	}
 }

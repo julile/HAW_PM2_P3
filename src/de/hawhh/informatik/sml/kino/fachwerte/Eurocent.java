@@ -9,8 +9,24 @@ package de.hawhh.informatik.sml.kino.fachwerte;
 
 public final class Eurocent
 {
-	int _euro;
-	int _cent;
+	private final int _euro;
+	private final int _cent;
+
+	/**
+	 * @return the _euro
+	 */
+	public int getEuro()
+	{
+		return _euro;
+	}
+
+	/**
+	 * @return the _cent
+	 */
+	public int getCent()
+	{
+		return _cent;
+	}
 
 	/**
 	 * 
@@ -47,6 +63,45 @@ public final class Eurocent
 
 		return new Eurocent(euro, cent);
 	}
+	/**
+	 * 
+	 * @param s
+	 * @return
+	 * 
+	 * @requires s not null
+	 * @requires s matches \\d{1,7}[,]\\d{2}
+	 */
+	public static Eurocent get(String s)
+	{
+		assert s != null : "Vorbedingung verletzt: s != null";
+		assert Eurocent.isValid(s) : "Vorbedingung verletzt: s.matches(\\d{0,7}[,]?\\d{0,2}";
+
+		int i = s.indexOf(",");
+		int euro = 0;
+		int cent = 0;
+		int multiplikator = 1;
+		
+		//falls kein komma
+		if (i == -1){
+			i = s.length();
+		}
+		// euro teil ermitteln
+		for (int j = i - 1; j >= 0; j--)
+		{
+			euro = euro + multiplikator * ((int) s.charAt(j) - '0');
+			multiplikator = multiplikator * 10;
+		}
+		// cent teil ermitteln
+		if (s.length() - 1 >= i + 2)
+		{
+			cent = (10 * ((int) s.charAt(i + 1) - '0'))
+					+ (1 * ((int) s.charAt(i + 2) - '0'));
+		} else if (s.length() - 1 == i + 1)
+		{
+			cent = (10 * ((int) s.charAt(i + 1) - '0'));
+		}
+		return Eurocent.get(euro, cent);
+	}
 
 	private Eurocent(int euro, int cent)
 	{
@@ -61,7 +116,7 @@ public final class Eurocent
 		if (o instanceof Eurocent)
 		{
 			Eurocent eu = (Eurocent) o;
-			ergebnis = (eu.toInt() == this.toInt());
+			ergebnis = ( (eu.getEuro() == this.getEuro())  &&  (eu.getCent() == this.getCent()) );
 		}
 		return ergebnis;
 	}
@@ -72,7 +127,7 @@ public final class Eurocent
 		return toInt();
 	}
 
-	public int toInt()
+	private int toInt()
 	{
 		return (_euro * 100 + _cent);
 	}
@@ -103,11 +158,6 @@ public final class Eurocent
 		return Eurocent.get(sum);
 	}
 
-	public Eurocent add(Eurocent eu)
-	{
-		return Eurocent.add(this, eu);
-	}
-
 	/**
 	 * 
 	 * @param eu1
@@ -127,11 +177,7 @@ public final class Eurocent
 
 		int sum = eu1.toInt() - eu2.toInt();
 		return Eurocent.get(sum);
-	}
-
-	public Eurocent sub(Eurocent eu)
-	{
-		return Eurocent.sub(this, eu);
+		
 	}
 
 	/**
@@ -151,58 +197,22 @@ public final class Eurocent
 		int prod = eu.toInt() * mul;
 		return Eurocent.get(prod);
 	}
-
 	/**
+	 * testet, ob der übergebene String den anforderungen genügt
 	 * 
-	 * @param mul
-	 * @return
-	 * 
-	 * @requires mul >= 0
+	 * @param s zu testender String
+	 * @return true, wenn okay
 	 */
-	public Eurocent mul(int mul)
-	{
-		return Eurocent.mul(this, mul);
+	public static boolean isValid(String s){
+		return (s.matches("\\d{0,7}[,]?\\d{0,2}"));
 	}
-
+	
 	/**
-	 * 
-	 * @param s
-	 * @return
-	 * 
-	 * @requires s not null
-	 * @requires s matches \\d{1,7}[,]\\d{2}
+	 * gibt zurück, ob ein eurowert größer/Gleich ein zweiter ist
+	 * @return true, wenn ja
 	 */
-	public static Eurocent toEuro(String s)
-	{
-		assert s != null : "Vorbedingung verletzt: s != null";
-		assert s.matches(
-				"\\d{1,7}[,]\\d{2}") : "Vorbedingung verletzt: s.matches(\\d{1,7}[.]\\d{2})";
-
-		int i = s.indexOf(",");
-		int euro = 0;
-		int cent = 0;
-		int multiplikator = 1;
-		// euro teil ermitteln
-		for (int j = i - 1; j >= 0; j--)
-		{
-			euro = euro + multiplikator * ((int) s.charAt(j) - '0');
-			multiplikator = multiplikator * 10;
-		}
-		// cent teil ermitteln
-		if (s.length() - 1 >= i + 2)
-		{
-			cent = (10 * ((int) s.charAt(i + 1) - '0'))
-					+ (1 * ((int) s.charAt(i + 2) - '0'));
-		} else if (s.length() - 1 == i + 1)
-		{
-			cent = (10 * ((int) s.charAt(i + 1) - '0'));
-		}
-		return Eurocent.get(euro, cent);
-	}
-
-	public static Eurocent toEuro(int i)
-	{
-		return Eurocent.get(i);
+	public static boolean größerGleich(Eurocent eu1, Eurocent eu2){
+		return (eu1.toInt() >= eu2.toInt());
 	}
 
 }
